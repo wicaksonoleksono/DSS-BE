@@ -1,11 +1,25 @@
 from typing import Literal
 from flask import Flask, jsonify
 from flask.wrappers import Response
-from app.utils.config import Config
-from app.controllers.saw_controller import saw_bp
-from app.controllers.wp_controller import wp_bp
-from app.connection.connection import Connection
+import os
+import sys
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+src_path = os.path.join(current_dir, 'src')
+if src_path not in sys.path:
+    sys.path.insert(0, src_path)
+
+
+from src.app.utils.config import Config
+from src.app.controllers.saw_controller import saw_bp
+from src.app.controllers.wp_controller import wp_bp
+from src.app.connection.connection import Connection
+
 from flask_cors import CORS
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+
 app = Flask(__name__)
 Config.init_firebase()
 CORS(app)
