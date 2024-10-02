@@ -9,6 +9,7 @@ class Config:
     @staticmethod
     def init_firebase():
         if not Config._initialize:
-            cred = credentials.Certificate("../BE/FirebaseCred.json")
+            cred = credentials.Certificate("../src/FirebaseCred.json")
             firebase_admin.initialize_app(cred)
             Config._initialize = True
+            

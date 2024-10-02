@@ -1,8 +1,8 @@
-requirements : 
-install pipenv 
+requirements :
+install pipenv
 
 ```py
-pipenv install Flask Flask-SQLAlchemy python-dotenv mysql-connector-python
+pipenv install -r requirements_utf8.txt
 ```
 
 ```py
