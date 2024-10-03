@@ -61,6 +61,6 @@ def calculate_saw_with_subcriteria() -> tuple[Response, Literal[400]] | tuple[Re
 
     try:
         scores = calculation_model.simple_additive_weighting_with_subcriteria(criteria, decision_matrix)
-        return jsonify({"scores": scores.tolist()}), 200
+        return jsonify({"scores": scores}), 200
     except ValueError as e:
         return jsonify({"message": str(e)}), 400
