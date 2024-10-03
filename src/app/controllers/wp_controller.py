@@ -56,3 +56,15 @@ def get_wp_results() -> tuple[Response, Literal[200]]:
     results = calculation_model.get_results()
 
     return jsonify({"results": results}), 200
+
+@wp_bp.route("v2/calculate", methods=["POST"])
+def calculate_wp_with_subcriteria() -> tuple[Response, Literal[400]] | tuple[Response, Literal[200]]:
+    data = request.json
+    criteria = data["criteria"]
+    decision_matrix = data["decision_matrix"]
+
+    try:
+        scores = calculation_model.weighted_product_with_subcriteria(criteria, decision_matrix)
+        return jsonify({"scores": scores.tolist()}), 200
+    except ValueError as e:
+        return jsonify({"message": str(e)}), 400
