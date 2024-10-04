@@ -46,4 +46,4 @@ def home() -> tuple[Response, Literal[200]] | tuple[Response, Literal[500]]:
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
