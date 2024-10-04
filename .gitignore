@@ -110,7 +110,7 @@ dmypy.json
 .pyre/
 
 # Firebase Credentials
-db/FirebaseCred.json
+# db/FirebaseCred.json
 
 # VS Code
 .vscode/
