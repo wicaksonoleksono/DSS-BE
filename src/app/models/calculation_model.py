@@ -95,8 +95,8 @@ class CalculationModel:
         if error_list:
             # Buat pesan error lengkap
             error_message = (
-                "Validasi Weighted Product gagal karena kesalahan pada bobot kriteria:\n" +
-                "\n".join(error_list)
+                "Validasi Weighted Product gagal karena kesalahan pada bobot kriteria:<br/>" +
+                "<br/>".join(error_list)
             )
             raise ValueError(error_message)
 
@@ -207,6 +207,7 @@ class CalculationModel:
                 )
             else:
                 error_message = "Total bobot kriteria pada SAW harus sama dengan 1, namun tidak ada kriteria yang terdeteksi kesalahan bobotnya."
+     
 
             raise ValueError(error_message)
 
