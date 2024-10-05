@@ -88,8 +88,8 @@ class CalculationModel:
 
         # Periksa apakah bobot kriteria atau sub-kriteria berada di antara 1-5
         for weight, name in zip(subcriteria_weights, sub_criteria_names):
-            if not (1 <= weight <= 5):
-                error_list.append(f"Bobot sub-kriteria '{name}' tidak valid. Bobot harus berada pada skala 1-5 (Nilai saat ini: {weight}).")
+            if not (weight > 0 and weight <= 5):
+                    error_list.append(f"Bobot sub-kriteria '{name}' tidak valid. Bobot harus berada pada skala 1-5 (Nilai saat ini: {weight}).")
 
         # Jika ada pesan error, gabungkan menjadi satu pesan dan raise ValueError
         if error_list:
@@ -102,19 +102,25 @@ class CalculationModel:
 
         # Buat matriks keputusan untuk sub-kriteria
         sub_decision_matrix = np.zeros((len(decision_matrix), len(subcriteria_weights)))
-
+    
         # Isi matriks keputusan untuk sub-kriteria berdasarkan nama sub-kriteria
+        # validasi handling frontend yng salah 
         for i, alternative in enumerate(decision_matrix):
             for j, sub_name in enumerate(sub_criteria_names):
                 if sub_name not in alternative['criteria_scores']:
                     raise ValueError(f"Nilai sub-kriteria '{sub_name}' hilang pada alternatif '{alternative}'.")
+                      # Validasi bahwa nilai tidak boleh negatif
+                if alternative['criteria_scores'][sub_name] < 0:
+                    raise ValueError(f"Nilai alternatif untuk '{sub_name}' pada alternatif '{alternative['alternative']}' tidak boleh negatif.")
 
                 # Validasi bahwa nilai alternatif tidak boleh 0
                 if alternative['criteria_scores'][sub_name] == 0:
                     raise ValueError(f"Nilai alternatif untuk '{sub_name}' pada alternatif '{alternative['alternative']}' tidak boleh 0.")
 
                 sub_decision_matrix[i, j] = alternative['criteria_scores'][sub_name]
-
+        ###############
+        # Masuk model # 
+        ##############
         # Lakukan normalisasi bobot jika perlu (jika total bobot != 1)
         if not np.isclose(subcriteria_weights.sum(), 1.0):
             subcriteria_weights /= subcriteria_weights.sum()
@@ -228,6 +234,9 @@ class CalculationModel:
                 # Validasi bahwa nilai alternatif tidak boleh 0
                 if alternative['criteria_scores'][sub_name] == 0:
                     raise ValueError(f"Nilai alternatif untuk '{sub_name}' pada alternatif '{alternative['alternative']}' tidak boleh 0.")
+                if alternative['criteria_scores'][sub_name] < 0:
+                    raise ValueError(f"Nilai alternatif untuk '{sub_name}' pada alternatif '{alternative['alternative']}' tidak boleh negatif.")
+
 
                 sub_decision_matrix[i, j] = alternative['criteria_scores'][sub_name]
 
