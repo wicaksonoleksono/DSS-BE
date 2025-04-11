@@ -116,3 +116,4 @@ dmypy.json
 
 # VS Code
 .vscode/
+FirebaseCred.json
